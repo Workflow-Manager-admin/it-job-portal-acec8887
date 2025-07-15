@@ -1,82 +1,129 @@
-# Lightweight React Template for KAVIA
+# IT Job Portal Frontend
 
-This project provides a minimal React template with a clean, modern UI and minimal dependencies.
+This is the React frontend for the IT Job Portal application. It provides a responsive, modern user interface for job seekers and employers to interact with the backend API.
+
+---
+
+## Table of Contents
+
+- [Features](#features)
+- [Setup](#setup)
+- [Running the App](#running-the-app)
+- [Testing](#testing)
+- [Main User Flows and Pages](#main-user-flows-and-pages)
+- [Environment and Backend Integration](#environment-and-backend-integration)
+- [Usage Notes](#usage-notes)
+
+---
 
 ## Features
 
-- **Lightweight**: No heavy UI frameworks - uses only vanilla CSS and React
-- **Modern UI**: Clean, responsive design with KAVIA brand styling
-- **Fast**: Minimal dependencies for quick loading times
-- **Simple**: Easy to understand and modify
+- User authentication (job seekers & employers, JWT-based)
+- Search and filter IT jobs
+- Apply for jobs (job seekers)
+- Post/manage jobs (employers)
+- Employer dashboard: view posted jobs & applications
+- Job seeker dashboard: track applied jobs & statuses
+- Modern responsive UI, custom CSS, no heavy UI frameworks
+- React Router for navigation
 
-## Getting Started
+---
 
-In the project directory, you can run:
+## Setup
 
-### `npm start`
+1. **Node.js** required (v16+ recommended).
+2. **Install dependencies:**
+   ```bash
+   cd job_portal_frontend
+   npm install
+   ```
 
-Runs the app in development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-### `npm test`
+## Running the App
 
-Launches the test runner in interactive watch mode.
+Start the frontend server in dev mode:
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-## Customization
-
-### Colors
-
-The main brand colors are defined as CSS variables in `src/App.css`:
-
-```css
-:root {
-  --kavia-orange: #E87A41;
-  --kavia-dark: #1A1A1A;
-  --text-color: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.7);
-  --border-color: rgba(255, 255, 255, 0.1);
-}
+```bash
+npm start
 ```
 
-### Components
+Default: [http://localhost:3000](http://localhost:3000)
 
-This template uses pure HTML/CSS components instead of a UI framework. You can find component styles in `src/App.css`. 
+You should have the backend API ([see backend README](../../it-job-portal-a5596dc3/job_portal_backend/README.md)) running at [http://localhost:8000](http://localhost:8000) for full functionality.
 
-Common components include:
-- Buttons (`.btn`, `.btn-large`)
-- Container (`.container`)
-- Navigation (`.navbar`)
-- Typography (`.title`, `.subtitle`, `.description`)
+---
 
-## Learn More
+## Testing
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+To run all unit and React component tests:
 
-### Code Splitting
+```bash
+npm test
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+---
 
-### Analyzing the Bundle Size
+## Main User Flows and Pages
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+**Authentication:**
+- `/login` — Login as job seeker or employer.
+- `/signup` — Register (two roles supported).
+  - Employers specify company name.
 
-### Making a Progressive Web App
+**Job Browsing:**
+- `/` — Job feed with search box; public.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+**Job Details & Apply:**
+- `/jobs/:jobId` — View job details.
+- `/jobs/:jobId/apply` — Seeker can apply for this job.
+- Application includes resume (URL or text) and cover letter.
 
-### Advanced Configuration
+**For Employers:**
+- `/dashboard/employer` — Lists posted jobs with application counts.
+- `/post-job` — Post a new job (title, description, location).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+**For Job Seekers:**
+- `/dashboard/jobseeker` — See your applied jobs and application statuses.
 
-### Deployment
+**Nav Bar:**
+- Adjusts displayed links according to auth/role.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+---
 
-### `npm run build` fails to minify
+## Environment and Backend Integration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+**API URL:**  
+By default, the app fetches API data from `http://localhost:8000`.
+
+- You can override:  
+  Set `REACT_APP_API_URL` in a `.env` file at `job_portal_frontend/`:
+  ```
+  REACT_APP_API_URL=http://your-backend-url:8000
+  ```
+- Main API logic is in [`src/api/index.js`](src/api/index.js).
+
+**Authentication:**  
+JWT is stored in `localStorage`; it is sent automatically on secured requests.
+
+---
+
+## Usage Notes
+
+- Log in as **employer** to post/manage jobs and see applications.
+- Log in as **job seeker** to apply for jobs and view your submissions.
+- The UI adapts to your authentication state and role.
+- Most errors (such as invalid credentials, posting failures) are shown inline above forms.
+
+---
+
+## Customization and Styles
+
+- CSS variables for theme/colors in [`src/App.css`](src/App.css).
+- Components and main pages are in `src/components/` and `src/pages/`.
+
+---
+
+## License
+
+MIT License.
